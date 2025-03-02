@@ -1,5 +1,15 @@
 import pygame
-import math
+import sys
+from levels.level_8_1 import Level8_1
+# from levels.level_8_2 import Level8_2
+# from levels.level_8_3 import Level8_3
+# from levels.level_8_4 import Level8_4
+# from levels.level_8_5 import Level8_5
+# from levels.level_8_6 import Level8_6
+# from levels.level_8_7 import Level8_7
+# from levels.level_8_8 import Level8_8
+# from levels.level_8_9 import Level8_9
+# from levels.level_8_10 import Level8_10
 
 # Инициализация Pygame
 pygame.init()
@@ -7,58 +17,36 @@ pygame.init()
 # Настройки экрана
 screen_width, screen_height = 800, 600
 screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption("Раскольников и Старушка-процентщица")
-
-# Цвета
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-
-# Загрузка спрайтов
-raskolnikov = pygame.image.load("raskolnikov.png")  # Замените на путь к вашему спрайту
-old_woman = pygame.image.load("old_woman.png")     # Замените на путь к вашему спрайту
-
-# Масштабирование спрайтов до 64x64
-raskolnikov = pygame.transform.scale(raskolnikov, (64, 64))
-old_woman = pygame.transform.scale(old_woman, (64, 64))
-
-# Позиции и углы для кружения
-angle_raskolnikov = 0
-angle_old_woman = 180
-radius = 200  # Радиус кружения
-center_x, center_y = screen_width // 2, screen_height // 2  # Центр экрана
+pygame.display.set_caption("8 Круг ада: Путешествие Раскольникова")
 
 # Основной игровой цикл
-clock = pygame.time.Clock()
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+def main():
+    levels = [
+        Level8_1(screen),
+        # Level8_2(screen),
+        # Level8_3(screen),
+        # Level8_4(screen),
+        # Level8_5(screen),
+        # Level8_6(screen),
+        # Level8_7(screen),
+        # Level8_8(screen),
+        # Level8_9(screen),
+        # Level8_10(screen)
+    ]
 
-    # Очистка экрана
-    screen.fill(BLACK)
+    current_level = 0
 
-    # Обновление углов
-    angle_raskolnikov += 1
-    angle_old_woman -= 1
+    while current_level < len(levels):
+        level = levels[current_level]
+        level.run()
 
-    # Вычисление позиций для кружения
-    raskolnikov_x = center_x + radius * math.cos(math.radians(angle_raskolnikov))
-    raskolnikov_y = center_y + radius * math.sin(math.radians(angle_raskolnikov))
+        if level.is_complete():
+            current_level += 1
+        else:
+            break
 
-    old_woman_x = center_x + radius * math.cos(math.radians(angle_old_woman))
-    old_woman_y = center_y + radius * math.sin(math.radians(angle_old_woman))
+    pygame.quit()
+    sys.exit()
 
-    # Отрисовка спрайтов
-    screen.blit(raskolnikov, (raskolnikov_x - 32, raskolnikov_y - 32))  # Центрирование спрайта
-    screen.blit(old_woman, (old_woman_x - 32, old_woman_y - 32))        # Центрирование спрайта
-
-    # Обновление экрана
-    pygame.display.flip()
-    clock.tick(60)  # Ограничение до 60 кадров в секунду
-
-pygame.quit()
-
-'''git remote add origin https://github.com/ilyaknirim/raskol8.git
-git branch -M main
-git push -u origin main'''
+if __name__ == "__main__":
+    main()
